@@ -1,0 +1,205 @@
+class Test extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      number: [0],
+      display: [0]
+    }
+    this.equalsFunc = this.equalsFunc.bind(this)
+    this.numberFunc = this.numberFunc.bind(this)
+    this.modFunc = this.modFunc.bind(this)
+    this.decimalFunc = this.decimalFunc.bind(this)
+    this.clearFunc = this.clearFunc.bind(this)
+  }
+  
+  equalsFunc(){
+    let x = this.state.number
+    let expression = eval(x.join(""))
+    let rounded = expression.toString().split("")
+    
+    while(rounded.length >11){
+      rounded.pop()
+    }
+    
+    if( rounded.length > 10){
+      
+      if (rounded[rounded.length - 1] >= 5){
+       rounded[rounded.length - 2] ++
+      }
+    
+     rounded.pop()
+      
+    }
+    
+rounded = rounded.join("")
+    
+   
+    console.log(rounded)
+    x.push("=")
+    x.push(rounded)
+ 
+   this.setState({
+     number: x,
+     display: rounded
+   })
+  
+  }
+  
+  numberFunc=(y) =>{
+    let x = this.state.number
+     let z = this.state.display
+     
+    if(x.includes("=")){
+        x = [0],
+        z = [0]  
+      
+    } 
+   
+    if(x[0] == 0 && x.length == 1){
+      x.shift()
+      z.shift()
+    }
+    if(typeof z[0] == 'string'){
+      z.shift()
+    }
+ 
+    x.push(y)
+    z.push(y)
+  
+    this.setState({
+      number: x,
+      display: z
+   
+    })
+  }
+  
+  modFunc =(y) =>{
+    let x = this.state.number
+    
+    if (x.includes("=")){
+      x =[Number(x[x.length-1])]
+      console.log(x)
+      
+    }
+   
+    if(typeof x[x.length-1] =="string" && y != "-"){
+      x.pop()
+    }
+    
+    if(typeof x[x.length-1] =="string" && y != "-"){
+      x.pop()
+    }
+    
+     if( x[x.length-1] =="-" && y == "-" ){
+      
+       x.pop()
+       
+     }
+      
+    
+    x.push(y)
+  
+    
+    this.setState({
+      number: x,
+      display: [y]
+    })
+    
+  }
+  
+  
+  
+  decimalFunc = () =>{
+    let x= this.state.number
+    let z = this.state.display
+    
+    if(typeof x[x.length-1] == "string"){
+   
+      if(x[x.length-1] == "."){
+       
+      }
+      else{
+      x.push(0)
+      x.push(".")
+      z = [0]
+      z.push('.')
+      }
+    }
+    else{
+      
+      if(z.includes(".")){
+        
+      }
+      
+     else{ 
+       console.log(z)
+    x.push(".")
+    z.push(".")
+     }
+    }
+    this.setState({
+      number: x,
+      display: z
+    })
+  }
+  
+  
+  
+  
+  clearFunc = () =>{
+    this.setState({
+      number: [0],
+      display: [0]
+    })
+  }
+  
+  
+  
+   
+  render(){
+    return(
+    <div id="calculator">
+        
+        <div id="top">
+          <h1>{this.state.number}</h1>
+         <h2 id="display">{this.state.display}</h2>
+        
+        
+        </div>
+        
+          <div id="special-buttons">
+        <button id="clear" onClick={this.clearFunc}>ac</button>
+            <button id="equals" onClick={this.equalsFunc} >=</button>
+          </div>
+        <div id="buttons">
+        <button id="one" onClick={() => this.numberFunc(1)}>1</button>
+        <button id="two" onClick={() => this.numberFunc(2)}>2</button>
+        <button id="three" onClick={() => this.numberFunc(3)}>3</button>
+          <button id="add" onClick={() => this.modFunc("+")}>+</button>
+        <button id="four" onClick={() => this.numberFunc(4)}>4</button>
+        <button id="five" onClick={() => this.numberFunc(5)}>5</button>
+        <button id="six" onClick={() => this.numberFunc(6)}>6</button>
+          <button id="subtract" onClick={() => this.modFunc("-")}>-</button>
+        <button id="seven" onClick={() => this.numberFunc(7)}>7</button>
+        <button id="eight" onClick={() => this.numberFunc(8)}>8</button>
+        <button id="nine" onClick={() => this.numberFunc(9)}>9</button>
+          <button id="multiply" onClick={() => this.modFunc("*")}>*</button>
+            
+          </div>
+        <div id="extra-buttons">
+        <button id="zero" onClick={() => this.numberFunc(0)}>0</button>
+        <button id="decimal" onClick={this.decimalFunc}>.</button>
+            
+        <button id="divide" onClick={() => this.modFunc("/")}>/</button>
+          <h3>Programed by David Backer</h3>
+           
+        </div>  
+        
+    </div>
+         
+    
+    )
+  }
+}
+
+ReactDOM.render(<Test />, document.getElementById("root"))
